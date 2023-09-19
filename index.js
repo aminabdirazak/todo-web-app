@@ -21,6 +21,16 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.all('*', (req,res) => {
+          res.json({"every thing":"is awesome"})
+      })
+      
+      //Connect to the database before listening
+      connectDB().then(() => {
+          app.listen(PORT, () => {
+              console.log("listening for requests");
+          })
+      })
 
 app.get('/',async (request, response)=>{
           const todoItems = await db.collection('todo').find().toArray()
@@ -36,14 +46,6 @@ app.get('/',async (request, response)=>{
           // .catch(error => console.error(error))
       })
 
-      client.connect(err => {
-          if(err){ console.error(err); return false;}
-          // connection to mongo is successful, listen for requests
-          app.listen(PORT, () => {
-              console.log("listening for requests");
-          })
-      });
-      
 
 app.post('/addTodo', (request, response) => {
           db.collection('todo').insertOne({thing: request.body.todoItem, completed: false})
