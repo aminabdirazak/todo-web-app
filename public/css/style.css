@@ -1,0 +1,18 @@
+h1{
+          color: red;
+      }
+      .completed{
+          color: darkolivegreen;
+          text-decoration: line-through green;
+      }
+
+body{padding: 10px; margin-bottom: 10px; height: auto; text-align: center;
+    
+          
+}
+
+li {
+         
+          list-style: none;
+          
+        }
