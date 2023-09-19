@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
 const PORT = 2121
+const cors = require('cors')
 require('dotenv').config()
 
 let db,
@@ -15,7 +16,7 @@ MongoClient.connect(dbConnectionStr , { useUnifiedTopology: true })
           db = client.db(dbName)
 })
 
-
+app.use(cors())
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
@@ -26,7 +27,7 @@ app.all('*', (req,res) => {
       })
       
       //Connect to the database before listening
-      connectDB().then(() => {
+      dbConnectionStr().then(() => {
           app.listen(PORT, () => {
               console.log("listening for requests");
           })
