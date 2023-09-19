@@ -1,9 +1,33 @@
 const express = require('express')
 const app = express()
-const MongoClient = require('mongodb').MongoClient
-const PORT = 2121
+//const MongoClient = require('mongodb').MongoClient
+const PORT = 3000
 const cors = require('cors')
 require('dotenv').config()
+
+
+const { MongoClient } = require('mongodb');
+
+
+// const uri = process.env.DB_STRING;
+// const client = new MongoClient(uri);
+
+// app.get("/", async (req, res) => {
+//     let item = await client.db("todo")
+//                 .collection("todo")
+//                 .findOne()
+
+//     return res.json(item)
+// })
+
+// client.connect(err => {
+//     if(err){ console.error(err); return false;}
+//     // connection to mongo is successful, listen for requests
+//     app.listen(process.env.PORT || PORT, () => {
+//         console.log(`Connected to ${item} Database`);
+//     })
+// });
+
 
 let db,
     dbConnectionStr = process.env.DB_STRING,
@@ -22,16 +46,6 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.all('*', (req,res) => {
-          res.json({"every thing":"is awesome"})
-      })
-      
-      //Connect to the database before listening
-      dbConnectionStr().then(() => {
-          app.listen(PORT, () => {
-              console.log("listening for requests");
-          })
-      })
 
 app.get('/',async (request, response)=>{
           const todoItems = await db.collection('todo').find().toArray()
