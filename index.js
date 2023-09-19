@@ -36,6 +36,15 @@ app.get('/',async (request, response)=>{
           // .catch(error => console.error(error))
       })
 
+      client.connect(err => {
+          if(err){ console.error(err); return false;}
+          // connection to mongo is successful, listen for requests
+          app.listen(PORT, () => {
+              console.log("listening for requests");
+          })
+      });
+      
+
 app.post('/addTodo', (request, response) => {
           db.collection('todo').insertOne({thing: request.body.todoItem, completed: false})
           .then(result => {
